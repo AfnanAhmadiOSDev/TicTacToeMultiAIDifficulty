@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct ContentView: View {
+struct GameView: View {
     
     let columns: [GridItem] = [GridItem(.flexible()),
                                GridItem(.flexible()),
@@ -176,7 +176,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    GameView()
 }
 
 
