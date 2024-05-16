@@ -14,6 +14,9 @@ struct ContentView: View {
                                GridItem(.flexible()),
                                GridItem(.flexible())]
     
+    @State private var moves: [Move?] = Array(repeating: nil, count: 9)
+    @State private var isHumansTurn = true
+    
     var body: some View {
         GeometryReader { geometry in
             let gWidth = geometry.size.width
@@ -29,10 +32,16 @@ struct ContentView: View {
                                 .foregroundStyle(.red.opacity(0.5))
                                 .frame(width: gWidth / 3 - 15, height: gWidth / 3 - 15)
                             
-                            Image(systemName: "xmark")
+                            Image(systemName: moves[i]?.indicator ?? "")
                                 .resizable()
                                 .frame(width: 40, height: 40)
                                 .foregroundStyle(.white.opacity(0.9))
+                        }
+                        .onTapGesture {
+                            //if moves[i] != nil {return} //why didn't he do this ??
+                            if isSquareOccupied(in: moves, forIndex: i) { return print("square already marked") }
+                            moves[i] = .init(player: isHumansTurn ? .human : .computer, boardIndex: i)
+                            isHumansTurn.toggle()
                         }
                     }
                 }
@@ -42,6 +51,11 @@ struct ContentView: View {
             .padding()
         }
     }
+    
+    
+    func isSquareOccupied(in moves: [Move?], forIndex index: Int) -> Bool {
+        return moves.contains(where: { $0?.boardIndex == index })
+    }//end method
 }
 
 #Preview {
